@@ -1,0 +1,53 @@
+[gd_scene load_steps=6 format=3 uid="uid://dxl3tu0cuku5e"]
+
+[ext_resource type="Texture2D" uid="uid://bvdmpmy8c0jh0" path="res://graphics/objects/wall_lamp.png" id="1_w0tlf"]
+[ext_resource type="Texture2D" uid="uid://c0jht44iyxulw" path="res://graphics/lights/textures/circle.png" id="2_nuiw1"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dlmo7"]
+radius = 61.0
+height = 778.0
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_wp8ca"]
+polygon = PackedVector2Array(-251, -42, -255, -29, -255, -7, -255, 27, -285, 50, -409, 50, -435, -7, -409, -39, -368, -78, -307, -98, 254, -96, 285, -93, 324, -79, 355, -52, 384, -17, 393, -5, 382, 24, 372, 48, 347, 54, 243, 54, 210, 27, 210, -37, 200, -43)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_2hkec"]
+polygon = PackedVector2Array(-245.886, 45.2936, -245.886, -61.9807, -242.875, -73.9001, -235.85, -73.9001, -235.85, 59.5968, -241.872, 73.9001)
+
+[node name="WallLamp" type="StaticBody2D"]
+collision_layer = 4
+collision_mask = 11
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-23, -9)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_dlmo7")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-20, -20)
+texture = ExtResource("1_w0tlf")
+region_enabled = true
+region_rect = Rect2(0, 0, 841.933, 169.223)
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+color = Color(0.972549, 0.352941, 0.827451, 1)
+energy = 7.4
+shadow_enabled = true
+shadow_color = Color(0.0703179, 0.250341, 0.552451, 0.0117647)
+shadow_filter = 2
+shadow_filter_smooth = 3.1
+texture = ExtResource("2_nuiw1")
+texture_scale = 2.0
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+visible = false
+occluder = SubResource("OccluderPolygon2D_wp8ca")
+
+[node name="LightOccluder2D2" type="LightOccluder2D" parent="."]
+scale = Vector2(0.996397, 0.419485)
+occluder = SubResource("OccluderPolygon2D_2hkec")
+
+[node name="LightOccluder2D3" type="LightOccluder2D" parent="."]
+position = Vector2(-45, -6)
+rotation = 3.14159
+scale = Vector2(0.996397, 0.419485)
+occluder = SubResource("OccluderPolygon2D_2hkec")

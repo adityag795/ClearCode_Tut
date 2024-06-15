@@ -1,0 +1,63 @@
+[gd_scene load_steps=8 format=3 uid="uid://3gqtlrf7xgyt"]
+
+[ext_resource type="Texture2D" uid="uid://c4xshvwchtfgb" path="res://graphics/enemies/scout.png" id="1_6st0c"]
+[ext_resource type="Script" path="res://scenes/enemies/scout.gd" id="1_x21b8"]
+[ext_resource type="Shader" path="res://scenes/enemies/scout.gdshader" id="2_v0cuq"]
+[ext_resource type="AudioStream" uid="uid://buoshb5xejjxq" path="res://audio/solid_impact.ogg" id="4_yuquq"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gbsgi"]
+shader = ExtResource("2_v0cuq")
+shader_parameter/color = Color(1, 0.396078, 0.345098, 1)
+shader_parameter/progress = 0.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8pq3j"]
+radius = 44.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_faxc8"]
+radius = 572.112
+
+[node name="Scout" type="CharacterBody2D" groups=["Moving_Entity", "Scouts"]]
+collision_layer = 2
+collision_mask = 11
+script = ExtResource("1_x21b8")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_gbsgi")
+position = Vector2(41, 28)
+rotation = 1.5708
+texture = ExtResource("1_6st0c")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("CircleShape2D_8pq3j")
+
+[node name="Area2D" type="Area2D" parent="."]
+visible = false
+collision_layer = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_faxc8")
+
+[node name="LaserSpawnPositions" type="Node2D" parent="."]
+
+[node name="Marker2D" type="Marker2D" parent="LaserSpawnPositions"]
+position = Vector2(117, -25)
+
+[node name="Marker2D2" type="Marker2D" parent="LaserSpawnPositions"]
+position = Vector2(129, 15)
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="LaserCoolDown" type="Timer" parent="Timers"]
+
+[node name="HitTimer" type="Timer" parent="Timers"]
+wait_time = 0.2
+one_shot = true
+
+[node name="HitSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_yuquq")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="timeout" from="Timers/LaserCoolDown" to="." method="_on_laser_cool_down_timeout"]
+[connection signal="timeout" from="Timers/HitTimer" to="." method="_on_hit_timer_timeout"]
